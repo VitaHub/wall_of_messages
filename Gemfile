@@ -13,7 +13,6 @@ gem 'sdoc', 						'~> 0.4.0', group: :doc
 gem 'bower-rails'
 gem 'devise'
 gem 'omniauth'
-gem 'omniauth-twitter'
 gem 'omniauth-facebook'
 gem 'omniauth-vkontakte'
 

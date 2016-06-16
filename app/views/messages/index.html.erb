@@ -1,0 +1,15 @@
+<div class="container">
+	<header>
+		<% if current_user %>
+			<%= link_to 'Выйти', destroy_user_session_path, :method => :delete %>
+			<p><%= current_user.name %></p>
+		<% else %>
+			<%= render 'devise/shared/links' %>
+			<div class="text-center">
+				<p>*Для добавления и комментирования сообщений выполните вход</p>
+			</div>
+		<% end %>
+	</header>
+
+	<h2>Messages</h2>
+</div>
