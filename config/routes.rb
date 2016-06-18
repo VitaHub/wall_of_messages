@@ -9,8 +9,9 @@ Rails.application.routes.draw do
   end
 
   get 'login' => 'main#index'
-  get 'messages' => 'messages#index', as: :messages
+  resources :messages, only: [:index, :create, :edit, :update]
   root 'main#index'
   get "*path", :to => redirect('/login')
 
+  match '*any' => 'application#options', :via => [:options]
 end

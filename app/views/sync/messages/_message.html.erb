@@ -1,0 +1,1 @@
+<div style="border:1px solid black;"><%= message.user.name %> (<%= message.created_at.strftime("%d/%m/%Y %H:%M") %>):<br> <%= simple_format message.body %> <%if user_signed_in? && current_user.id == message.user.id %><%= link_to "Редактировать", edit_message_path(message), remote: true, class: 'static-popup-link' %><% end %></div> 

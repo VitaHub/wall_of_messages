@@ -13,4 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require sync
+//= require 'bootstrap-sass-official'
 //= require_tree .

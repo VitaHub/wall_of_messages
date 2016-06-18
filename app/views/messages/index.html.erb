@@ -1,8 +1,88 @@
+<style type="text/css">
+	#edit_message_body,
+	.modal-body,
+	.modal-header,
+	.modal-footer,
+	.edit_message {
+		border-radius: 0;
+		border: none;
+	}
+
+	.modal-footer {
+		padding-top: 0;
+	}
+
+	#edit_message_body {
+		resize: none;
+		box-shadow: none;
+	}
+
+	.modal-header {
+		padding: 10px;
+	}
+
+  #myModal {
+    top: 25%;
+    outline: none;
+  }
+
+	.modal-content {
+		border-radius: 0;
+	}
+
+	div.col-md-10, 
+	div.col-md-2 {
+		padding-right: 0;
+	}
+
+	#message_body {
+		height: 50px;
+		border-radius: 0;
+		border-color: #000;
+		resize: none;
+	}
+
+	#message_body:focus {
+		box-shadow: 0 0 10px rgba(0,0,0,0.5);		
+	}
+
+	.btn {
+		border-radius: 0;
+		background-color: #fff;
+		border-color: #000;
+		color: black;
+		padding: 3px 10px; 
+		box-shadow:
+		  1px 0px rgb(0,0,0), 1px 1px rgb(0,0,0),
+		  2px 1px rgb(0,0,0), 2px 2px rgb(0,0,0),
+		  3px 2px rgb(0,0,0), 3px 3px rgb(0,0,0),
+		  4px 3px rgb(0,0,0), 4px 4px rgb(0,0,0),
+		  5px 4px rgb(0,0,0), 5px 5px rgb(0,0,0),
+		  6px 5px rgb(0,0,0), 6px 6px rgb(0,0,0);
+	}
+
+	.col-md-2 {
+		padding-top: 8px;
+	}
+</style>
+
 <div class="container">
 	<header>
 		<% if current_user %>
 			<%= link_to 'Выйти', destroy_user_session_path, :method => :delete %>
 			<p><%= current_user.name %></p>
+			<%= form_for @new_message, remote: true do |f| %>
+				<div class=”field”>
+					<div class="row">
+						<div class="col-md-10 col-sm-10">
+   						<%= f.text_area :body, class: "form-control", placeholder: "Текст сообщения (Ctrl + Enter для отправки)", style: "height: 50px;" %>
+ 						</div>
+ 						<div class="col-md-2 col-sm-2">
+   						<%= f.submit "Отправить", class: "btn btn-primary" %>
+ 						</div>
+ 					</div>
+ 				</div>
+			<% end %>
 		<% else %>
 			<%= render 'devise/shared/links' %>
 			<div class="text-center">
@@ -11,5 +91,32 @@
 		<% end %>
 	</header>
 
-	<h2>Messages</h2>
+	<h2 class="text-center">Сообщения</h2>
+
+	<%= sync_new partial: 'message', resource: Message.new, direction: :prepend %>
+	<%= sync partial: 'message', collection: @messages %>
+
+	<div class="modal fade" id="myModal" role="dialog"></div>
+
 </div>
+
+<script>	
+	var ready = function () {
+		$('#message_body').focus();
+
+		$('#myModal').on('shown.bs.modal', function () {
+      $('#edit_message_body').focus();
+    });
+		
+		$('.new_message').on("ajax:success", function(e, data, status, xhr) {
+			$('#message_body').val('');
+		});
+
+		$("#message_body").keydown(function(e){ 
+			if(e.which == 13 && e.ctrlKey){ 
+				$('#new_message').submit(); 
+			}; 
+		}); 
+	};
+	$(document).ready(ready);
+</script>

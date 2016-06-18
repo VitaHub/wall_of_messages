@@ -15,6 +15,9 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-vkontakte'
+gem 'faye'
+gem 'thin', require: false
+gem 'render_sync'
 
 
 group :development, :test do
