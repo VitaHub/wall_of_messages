@@ -1,13 +1,65 @@
-<div style="border:1px solid black;"><%= message.user.name %> (<%= message.created_at.strftime("%d/%m/%Y %H:%M") %>):<br> <%= simple_format message.body %> <%if user_signed_in? && current_user.id == message.user.id %>
-		<%= link_to "Редактировать", edit_message_path(message), remote: true, class: 'static-popup-link' %>
-	<% end %>
-	<% if user_signed_in? %>
-		<%= link_to "Добавить комментарий", new_comment_path(id: message.id, parent: "message"), remote: true, class: 'static-popup-link' %>
-	<% end %>
-	<% if message.comments %>
-		<div style="margin-left: 50px;">
-			<%= sync partial: 'comment', collection: message.comments %>
-			<%= sync_new partial: 'comment', resource: Comment.new, scope: message %>
+<div class="message">
+	<div class="message-box">
+		<div class="icon-box">
+			<% if message.comments.first %>
+				<i class="fa fa-angle-right fa-lg" id="comments_<%= message.id %>"></i>
+			<% else %>
+				<i class="" id="comments_<%= message.id %>"></i>
+			<% end %>
 		</div>
-	<% end %>
+		<%if user_signed_in? && current_user.id == message.user.id %>
+			<%= link_to "Редактировать сообщение", edit_message_path(message), remote: true, class: 'pull-right link' %>
+		<% end %> 
+		<div class="author">
+			<%= message.user.name %> (<%= message.created_at.strftime("%d/%m/%Y %H:%M") %>):
+		</div>
+		<br>
+		<div class="message-content">
+			<div><%= simple_format message.body %></div>
+		</div>
+		<% if message.comments.first %>
+			<div style="margin-left: 50px; display: none;" id="show_comments_<%= message.id %>">
+				<%= sync partial: 'comment', collection: message.comments %>
+				<%= sync_new partial: 'comment', resource: Comment.new, scope: message %>
+			</div>
+		<% else %>
+				<div style="margin-left: 50px;" id="show_comments_<%= message.id %>">
+				<%= sync partial: 'comment', collection: message.comments %>
+				<%= sync_new partial: 'comment', resource: Comment.new, scope: message %>
+			</div>
+		<% end %>
+		<% if user_signed_in? %>
+			<div class="add_comment add_first_comment">
+				<%= link_to "Добавить комментарий", new_comment_path(id: message.id, parent: "message"), remote: true, class: "link", id: "add_comment_#{message.id}" %>
+			</div>
+		<% end %>
+	</div>
+
+	<script>
+		var ready = function() {
+			$("#comments_<%= message.id %>").click(function() {
+				if ($(this).attr("class")=="fa fa-angle-right fa-lg") {
+					$(this).removeClass("fa fa-angle-right fa-lg").addClass("fa fa-angle-down fa-lg");
+					$("#show_comments_<%= message.id %>").show("slow")
+				} else {
+					$(this).removeClass("fa fa-angle-down fa-lg").addClass("fa fa-angle-right fa-lg");
+					$("#show_comments_<%= message.id %>").hide("slow")
+				};
+			});
+
+			$("#add_comment_<%= message.id %>").click(function() {
+				var message = "#comments_<%= message.id %>"
+				if ($(message).attr("class")!=="fa fa-angle-down fa-lg") {
+					$(message).removeClass("fa fa-angle-right fa-lg").addClass("fa fa-angle-down fa-lg");
+					$("#show_comments_<%= message.id %>").show("slow")
+				};
+			});
+
+		};
+
+		$(document).ready(ready);
+	</script>
+	
 </div> 
+
+

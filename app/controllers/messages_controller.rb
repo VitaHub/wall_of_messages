@@ -1,6 +1,5 @@
 class MessagesController < ApplicationController
 	before_action :authenticate_user!, only: [:create, :edit, :update]
-	respond_to :html, :js
 
   def index
     @messages = Message.all.order(created_at: :desc)

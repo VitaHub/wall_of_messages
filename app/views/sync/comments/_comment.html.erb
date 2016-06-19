@@ -1,14 +1,24 @@
-<div style="border: 1px solid grey;"><%= comment.user.name %> (<%= comment.created_at.strftime("%d/%m/%Y %H:%M") %>):<br> <%= simple_format comment.body %>
+<div class="comment">
 	<%if user_signed_in? && current_user.id == comment.user.id %>
-		<%= link_to "Редактировать", edit_comment_path(comment), remote: true, class: 'static-popup-link' %>
+		<%= link_to "Редактировать комментарий", edit_comment_path(comment), remote: true, class: "pull-right link" %>
 	<% end %>
-	<% if user_signed_in? %>
-		<%= link_to "Добавить комментарий", new_comment_path(id: comment.id, parent: "comment"), remote: true, class: 'static-popup-link' %>
-	<% end %>
+	<div class="author">
+		<%= comment.user.name %> (<%= comment.created_at.strftime("%d/%m/%Y %H:%M") %>):
+	</div>
+	<br> 
+	<div class="message-content">
+		<%= simple_format comment.body %>
+	</div>
+
 	<% if comment.children %>
-		<div style="margin-left: 50px;">
+		<div style="margin-left: 30px;">
 			<%= sync partial: 'comment', collection: comment.children %>
 			<%= sync_new partial: 'comment', resource: Comment.new, scope: comment %>
+		</div>
+	<% end %>
+	<% if user_signed_in? %>
+		<div class="add_comment">
+			<%= link_to "Добавить комментарий", new_comment_path(id: comment.id, parent: "comment"), remote: true, class: "link" %>
 		</div>
 	<% end %>
 </div>

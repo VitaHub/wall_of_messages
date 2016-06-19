@@ -1,4 +1,71 @@
 <style type="text/css">
+	textarea:focus::-webkit-input-placeholder {color: transparent} 
+	textarea:focus::-moz-placeholder {color: transparent} 
+	textarea:focus:-moz-placeholder {color: transparent} 
+	textarea:focus:-ms-input-placeholder {color: transparent}
+
+	.comment {
+		border-bottom: 1px solid grey;
+	}
+
+	.comment .message-content {
+		margin-left: 0;
+	}
+
+	.add_first_comment {
+		/*text-align: right;*/
+		padding-left: 20px;
+	}
+
+	.author {
+		float: left;
+	}
+
+	.fa:hover {
+		cursor: pointer;
+	}
+
+	.message-content {
+		margin-left: 20px;
+	}
+
+	.message-content p {
+		margin: 0;
+		word-break: break-all; 
+	}
+
+	.icon-box {
+		height: 18px;
+		width: 18px;
+		float: left;
+	}
+
+	a.link {
+		text-decoration: none;
+		color: grey;
+		font-size: 12px;
+		margin: 0;
+	}
+
+	a.link:hover {
+		color: #286090;
+
+	}
+
+	.message {
+		padding: 10px 10px 0;
+	}
+
+	.message-box {
+		border-bottom: 1px solid grey;
+		padding-bottom: 10px;
+	}
+
+	.content {
+		margin: 10px;
+		border: 2px solid;
+	}
+
 	#edit_message_body,
 	.modal-body,
 	.modal-header,
@@ -43,7 +110,7 @@
 	}
 
 	#message_body:focus {
-		box-shadow: 0 0 10px rgba(0,0,0,0.5);		
+		box-shadow: none;		
 	}
 
 	.btn {
@@ -64,13 +131,28 @@
 	.col-md-2 {
 		padding-top: 8px;
 	}
+
+	.header {
+		padding-top: 10px;
+	}
+
+	.header a {
+		color: #000;
+		text-decoration: none;
+	}
+
+	.header a:hover {
+		color: #286090;
+	}
 </style>
 
 <div class="container">
 	<header>
 		<% if current_user %>
-			<%= link_to 'Выйти', destroy_user_session_path, :method => :delete %>
-			<p><%= current_user.name %></p>
+			<div class="header">
+				<%= link_to 'Выйти', destroy_user_session_path, :method => :delete, class: "pull-right" %>
+				<p>Вы: <%= current_user.name %></p>
+			</div>
 			<%= form_for @new_message, remote: true do |f| %>
 				<div class=”field”>
 					<div class="row">
@@ -91,11 +173,10 @@
 		<% end %>
 	</header>
 
-	<h2 class="text-center">Сообщения</h2>
-
-	<%= sync_new partial: 'message', resource: Message.new, direction: :prepend %>
-	<%= sync partial: 'message', collection: @messages %>
-
+	<div class="content">
+		<%= sync_new partial: 'message', resource: Message.new, direction: :prepend %>
+		<%= sync partial: 'message', collection: @messages %>
+	</div>
 	<div class="modal fade" id="myModal" role="dialog"></div>
 
 </div>
