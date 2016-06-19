@@ -3,9 +3,8 @@
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-      <!--<h4 class="modal-title">Modal title</h4>-->
     </div>
-    <%= form_for @message, remote: true do |f| %>
+    <%= form_for @comment, remote: true do |f| %>
       <div class="modal-body" style="padding: 0;">
 				<%= f.text_area :body, class: "form-control", id: "edit_message_body", style: "height: 100px;" %>
       </div>
@@ -19,21 +18,19 @@
 <script type="text/javascript">
   var ready = function () {
 
-    $('#edit_message_<%= @message.id %>').on("ajax:success", function(e, data, status, xhr) {
-      $('#message_body').focus();
+    $('#edit_comment_<%= @comment.id %>').on("ajax:success", function(e, data, status, xhr) {
       $("#myModal").modal('hide');
     });
 
     $("#edit_message_body").keydown(function(e){ 
       if(e.which == 13 && e.ctrlKey){ 
-        $("#edit_message_<%= @message.id %>").submit(); 
+        $("#edit_comment_<%= @comment.id %>").submit(); 
       }; 
     }); 
 
     $(document).keyup(function(e) {
       if (e.keyCode == 27) {
         $("#myModal").modal('hide');
-        $('#message_body').focus();
       };
     });
 

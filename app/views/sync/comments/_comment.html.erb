@@ -1,0 +1,5 @@
+<div style="border: 1px solid grey;"><%= comment.user.name %> (<%= comment.created_at.strftime("%d/%m/%Y %H:%M") %>):<br> <%= simple_format comment.body %>
+	<%if user_signed_in? && current_user.id == comment.user.id %>
+		<%= link_to "Редактировать", edit_comment_path(comment), remote: true, class: 'static-popup-link' %>
+	<% end %>
+</div>

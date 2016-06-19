@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   get 'login' => 'main#index'
   resources :messages, only: [:index, :create, :edit, :update]
+  resources :comments, only: [:new, :create, :edit, :update]
+  # get '/comments/new/:id' => 'comments#new', as: :new_comment
   root 'main#index'
   get "*path", :to => redirect('/login')
 

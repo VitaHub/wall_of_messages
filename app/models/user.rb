@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 
   has_many :messages
+  has_many :comments
 
   devise :database_authenticatable, :registerable, :rememberable,
   		 :trackable, :validatable, :omniauthable
