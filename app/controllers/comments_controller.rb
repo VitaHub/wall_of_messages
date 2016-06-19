@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
 	@@parent_type = ''
 
 	def new
-		@comment = Comment.new(message_id: params[:id])
+		@comment = Comment.new
 		@@parent_id = params[:id]
 		@@parent_type = params[:parent]
     respond_to do |format|
@@ -16,8 +16,11 @@ class CommentsController < ApplicationController
 	def create
 		if @@parent_type == 'message'
 			parent = Message.find_by(id: @@parent_id)
+      @comment = parent.comments.build(message_params)
+    else
+      parent = Comment.find_by(id: @@parent_id)
+      @comment = parent.children.create(message_params)
 		end
-		@comment = parent.comments.build(message_params)
 		@comment.user_id = current_user.id
     if @comment.save
       sync_new @comment, scope: parent

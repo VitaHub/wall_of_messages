@@ -18,6 +18,7 @@ gem 'omniauth-vkontakte'
 gem 'faye'
 gem 'thin', require: false
 gem 'render_sync'
+gem 'closure_tree'
 
 
 group :development, :test do

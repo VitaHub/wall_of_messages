@@ -1,16 +1,13 @@
 <div style="border:1px solid black;"><%= message.user.name %> (<%= message.created_at.strftime("%d/%m/%Y %H:%M") %>):<br> <%= simple_format message.body %> <%if user_signed_in? && current_user.id == message.user.id %>
 		<%= link_to "Редактировать", edit_message_path(message), remote: true, class: 'static-popup-link' %>
 	<% end %>
-	<%= link_to "Добавить комментарий", new_comment_path(id: message.id, parent: "message"), remote: true, class: 'static-popup-link' %>
+	<% if user_signed_in? %>
+		<%= link_to "Добавить комментарий", new_comment_path(id: message.id, parent: "message"), remote: true, class: 'static-popup-link' %>
+	<% end %>
 	<% if message.comments %>
-		<div class="row">
-			<div class="col-md-11 col-md-offset-1">
-				<% message.comments.each do |comment| %>
-					<!--<div style="border: 1px solid grey;"><%= comment.body %></div>-->
-				<% end %>
-					<%= sync partial: 'comment', collection: message.comments %>
-					<%= sync_new partial: 'comment', resource: Comment.new, scope: message %>
-			</div>
+		<div style="margin-left: 50px;">
+			<%= sync partial: 'comment', collection: message.comments %>
+			<%= sync_new partial: 'comment', resource: Comment.new, scope: message %>
 		</div>
 	<% end %>
 </div> 

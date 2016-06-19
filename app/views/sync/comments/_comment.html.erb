@@ -2,4 +2,13 @@
 	<%if user_signed_in? && current_user.id == comment.user.id %>
 		<%= link_to "Редактировать", edit_comment_path(comment), remote: true, class: 'static-popup-link' %>
 	<% end %>
+	<% if user_signed_in? %>
+		<%= link_to "Добавить комментарий", new_comment_path(id: comment.id, parent: "comment"), remote: true, class: 'static-popup-link' %>
+	<% end %>
+	<% if comment.children %>
+		<div style="margin-left: 50px;">
+			<%= sync partial: 'comment', collection: comment.children %>
+			<%= sync_new partial: 'comment', resource: Comment.new, scope: comment %>
+		</div>
+	<% end %>
 </div>
