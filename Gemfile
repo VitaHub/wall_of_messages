@@ -20,7 +20,7 @@ gem 'thin', require: false
 gem 'render_sync'
 gem 'closure_tree'
 gem 'will_paginate', '~> 3.1.0'
-
+gem 'faker'
 
 group :development, :test do
   gem 'byebug'
