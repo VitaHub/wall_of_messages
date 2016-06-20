@@ -1,4 +1,5 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+    
   def self.provides_callback_for(provider)
     class_eval %Q{
       def #{provider}
@@ -8,7 +9,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     }
   end
 
-  [:twitter, :facebook, :vkontakte].each do |provider|
+  [:facebook, :vkontakte].each do |provider|
     provides_callback_for provider
   end
 

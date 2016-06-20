@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
 	before_action :authenticate_user!, only: [:create, :edit, :update]
+  before_action :correct_user, only: [:edit, :update]
 
   def index
     @messages = Message.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 10)
@@ -39,5 +40,12 @@ class MessagesController < ApplicationController
   private
     def message_params
       params.require(:message).permit(:body)
+    end
+
+      # Check if user is correct
+    def correct_user 
+      unless current_user.id == Message.find(params[:id]).user_id
+        render json: nil, status: :ok
+      end
     end
 end

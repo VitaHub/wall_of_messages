@@ -7,22 +7,14 @@ class User < ActiveRecord::Base
   		 :trackable, :validatable, :omniauthable
 
   def self.find_for_oauth(auth, signed_in_resource = nil)
-
-    # Получить identity пользователя, если он уже существует
+    # Get user, if it already exists
     identity = Identity.find_for_oauth(auth)
-
-    # Если signed_in_resource предоставлен оно всегда переписывает
-    # существующего пользователя что бы identity не была закрыта
-    # случайно созданным аккаунтом.
     user = signed_in_resource ? signed_in_resource : identity.user
-
-    # Создать пользователя, если нужно
+    # Create user if needed
     if user.nil?
-
       email = auth.info.email
       user = User.where(:email => email).first if email
-
-      # Создать пользователя, если это новая запись
+      # Create user if this is a new record
       if user.nil?
         user = User.new(
           name: auth.info.name,
@@ -32,8 +24,7 @@ class User < ActiveRecord::Base
         user.save!
       end
     end
-
-    # Связать identity с пользователем, если необходимо
+    # Connect identity with user if needed
     if identity.user != user
       identity.user = user
       identity.save!

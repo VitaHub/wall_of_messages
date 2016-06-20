@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
 	before_action :authenticate_user!, only: [:new, :create, :edit, :update]
+  before_action :correct_user, only: [:edit, :update]
 	@@parent_id = 0
 	@@parent_type = ''
 
@@ -50,10 +51,15 @@ class CommentsController < ApplicationController
     end
   end
 
-
-
   private
   def message_params
     params.require(:comment).permit(:body)
+  end
+  
+    # Check if user is correct
+  def correct_user 
+    unless current_user.id == Comment.find(params[:id]).user_id
+      render json: nil, status: :ok
+    end
   end
 end
