@@ -1,32 +1,9 @@
-<style type="text/css"> 
-	.btn { 
-		height: 25px; 
-		width: 100px; 
-		border-radius: 0; 
-		padding: 2px; 
-		background: white; 
-		color: black; 
-		border-color: #000;
-	} 
-
-	.btn-group { 
-		box-shadow:
-		  1px 0px rgb(0,0,0), 1px 1px rgb(0,0,0),
-		  2px 1px rgb(0,0,0), 2px 2px rgb(0,0,0),
-		  3px 2px rgb(0,0,0), 3px 3px rgb(0,0,0),
-		  4px 3px rgb(0,0,0), 4px 4px rgb(0,0,0),
-		  5px 4px rgb(0,0,0), 5px 5px rgb(0,0,0),
-		  6px 5px rgb(0,0,0), 6px 6px rgb(0,0,0);
-		margin: 10px 0 5px;
-	}
-</style>
-
 <%- if devise_mapping.omniauthable? %>
   <div class="text-center">
-	<div class="btn-group">
-	  <%- resource_class.omniauth_providers.each do |provider| %>
-		<%= link_to "#{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), class: "btn btn-primary" %>
-	  <% end -%>
-	</div>
+		<div class="btn-group">
+		  <%- resource_class.omniauth_providers.each do |provider| %>
+			<%= link_to "#{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), class: "btn button-main btn-primary" %>
+		  <% end -%>
+		</div>
   </div>
 <% end -%>

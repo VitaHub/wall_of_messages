@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
 	before_action :authenticate_user!, only: [:create, :edit, :update]
 
   def index
-    @messages = Message.all.order(created_at: :desc)
+    @messages = Message.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 10)
     @new_message = Message.new
   end
 

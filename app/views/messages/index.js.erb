@@ -1,0 +1,2 @@
+$('#messages').append('<%= escape_javascript sync partial: 'message', collection: @messages %>');
+$('.pagination').replaceWith('<%= escape_javascript will_paginate(@messages) %>');

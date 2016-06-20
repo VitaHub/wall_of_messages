@@ -9,7 +9,7 @@
 				<%= f.text_area :body, class: "form-control", id: "edit_message_body", style: "height: 100px;" %>
       </div>
       <div class="modal-footer">
-        <%= f.submit "Отправить", class: "btn btn-primary"%>
+        <%= f.submit "Отправить", class: "btn button btn-primary"%>
       </div>
     <% end %>
   </div><!-- /.modal-content -->
@@ -17,24 +17,22 @@
 
 <script type="text/javascript">
   var ready = function () {
-
+    /* Hide modal window input after successful ajax request */
     $('#edit_message_<%= @message.id %>').on("ajax:success", function(e, data, status, xhr) {
-      // $('#message_body').focus();
       $("#myModal").modal('hide');
     });
-
+    /* Submit form on Ctrl+Enter */
     $("#edit_message_body").keydown(function(e){ 
       if(e.which == 13 && e.ctrlKey){ 
         $("#edit_message_<%= @message.id %>").submit(); 
       }; 
     }); 
-
+    /*Hide modal window when 'esc'*/
     $(document).keyup(function(e) {
       if (e.keyCode == 27) {
         $("#myModal").modal('hide');
       };
     });
-
   };
   $(document).ready(ready);
 </script>
